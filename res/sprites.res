@@ -1,0 +1,1 @@
+SPRITE player "player.png" 1 1 NONE 5
