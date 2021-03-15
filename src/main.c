@@ -11,22 +11,23 @@
 
 int main()
 {
-    VDP_drawText("Hello Sega!!", 10,13);
+    // Set screen width
+    VDP_setScreenWidth320();
     SPR_init();
     u16 ind=TILE_USERINDEX;
-    VDP_loadTileSet(&tileset,ind,DMA);
-    VDP_setPalette(PAL1, tileset_pal.data);
-    int i,j;
-
-    for (i = 0; i < 40; i++)
-    {
-        for (j = 0; j < 28; j++)
-        {
-            VDP_setTileMapXY(BG_A, TILE_ATTR_FULL(PAL1, FALSE, FALSE, FALSE, ind-1 + tiles[i + 40 * j]), i, j);
+    VDP_drawImageEx(BG_B,&celestec1,TILE_ATTR_FULL(PAL0,TRUE,FALSE,FALSE,ind),0,0,FALSE,TRUE);
+    VDP_setPalette(PAL0,celestec1.palette->data);
+    ind+=celestec1.tileset->numTile;
+    //VDP_loadTileSet(&tileset,ind,DMA);
+    //VDP_setPalette(PAL1, tileset_pal.data);
+    int i,j=0;
+    for(;i<40;i++){
+        for(;j<28;j++){
+            VDP_setTileMapXY(BG_A,TILE_ATTR_FULL(PAL2,TRUE,FALSE,FALSE,ind-1, tiles[i+40*j]),i,j);
         }
     }
-    ind+=tileset.numTile;
-    Sprite * player_sprt = SPR_addSprite(&player,20,20,TILE_ATTR_FULL(PAL2,TRUE,FALSE,FALSE,ind));
+    
+    Sprite * player_sprt = SPR_addSprite(&player,190,170,TILE_ATTR_FULL(PAL2,TRUE,FALSE,FALSE,ind));
     VDP_setPalette(PAL2,player.palette->data);
     SPR_setAnim(player_sprt,2);
     while(1)
